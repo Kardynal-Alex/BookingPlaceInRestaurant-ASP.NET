@@ -6,24 +6,24 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-
+using BookingPlaceInRestaurant.Models.GuestsModel;
+using BookingPlaceInRestaurant.Models.PlacesModel;
 namespace BookingPlaceInRestaurant.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private IGuestDataRepository guestRepository;
+        private IPlaceDataRepository placeRepository;
+        public HomeController(IGuestDataRepository guestRepo, IPlaceDataRepository placeRepo)
         {
-            _logger = logger;
+            guestRepository = guestRepo;
+            placeRepository = placeRepo;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-
-       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

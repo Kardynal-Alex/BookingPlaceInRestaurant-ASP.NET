@@ -16,6 +16,18 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="row">
+                    @if (User.IsInRole("admin") == true)
+                    {
+                        <div>
+                            <a asp-controller="Guests" asp-action="Index" class="btn btn-block">AllGuests</a>
+                        </div>
+                        <div>
+                            <a asp-controller="Places" asp-action="Index" class="btn btn-block">AllGuests</a>
+                        </div>
+                    }
+                </div>
+                <pre>                        </pre>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         @if (!User.Identity.IsAuthenticated)

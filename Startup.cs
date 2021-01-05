@@ -1,17 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BookingPlaceInRestaurant.Models.IdentityModel;
+using BookingPlaceInRestaurant.Models.GuestsModel;
+using Microsoft.AspNetCore.Http;
+using BookingPlaceInRestaurant.Models.PlacesModel;
 
 namespace BookingPlaceInRestaurant
 {
@@ -27,12 +24,20 @@ namespace BookingPlaceInRestaurant
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<GuestDBContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<PlaceDBContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IGuestDataRepository, GuestDataRepository>();
+            services.AddTransient<IPlaceDataRepository, PlaceDataRepository>();
             services.AddIdentity<User, IdentityRole>(opt =>
             {
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequireUppercase = false;
             }).AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
-
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+                options.HttpsPort = 44344;
+            });
             services.AddControllersWithViews();
         }
 
