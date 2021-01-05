@@ -4,7 +4,7 @@
     <a class="btn btn-outline-dark" asp-controller="Account" asp-action="Register">Register</a>
 </div>
 
-
+<div>
 <form asp-controller="Account" asp-action="Login" method="post"
       asp-route-returnUrl="@Model.ReturnUrl">
     <div>
@@ -24,14 +24,17 @@
             <input asp-for="RememberMe" />
         </div>
     </div>
-    <div class="row">
+    <div>
         <button class="btn btn-success" type="submit">Login</button>
         <a asp-action="Index" asp-controller="Home" class="btn btn-danger">
             Cancel
         </a>
     </div>
 </form>
-
+</div>
+<div>
+    <a asp-action="ForgotPassword" asp-controller="Account" class="btn btn-outline-danger">Forgot Password ?</a>
+</div>
 @section scripts
 {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>

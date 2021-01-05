@@ -19,7 +19,6 @@ namespace BookingPlaceInRestaurant.Controllers
             guestRepository = guestRepo;
             placeRepository = placeRepo;
         }
-
         public IActionResult Index()
         {
             return View();

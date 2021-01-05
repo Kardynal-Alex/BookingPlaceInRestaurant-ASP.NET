@@ -70,7 +70,7 @@ namespace BookingPlaceInRestaurant.Controllers
                         protocol: HttpContext.Request.Scheme);
                     EmailService emailService = new EmailService();
                     await emailService.SendEmailAsync(model.Email,
-                        "Confirm your account", $"Confirm registration by following the link  <a href='{callbackUrl}'>link</a>");
+                        "Confirm your account", $"Confirm registration by following the <a href='{callbackUrl}'>link</a>");
                     return Content("To complete the registration, check your e-mail and follow the link provided in the letter");
                 }
             }
@@ -130,6 +130,56 @@ namespace BookingPlaceInRestaurant.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid) 
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if (user == null && !(await userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+                var code = await userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code },
+                    protocol: HttpContext.Request.Scheme);
+                EmailService emailService = new EmailService();
+                await emailService.SendEmailAsync(model.Email,
+                    "Reset password", $"To reset your password, follow the <a href='{callbackUrl}'>link</a>");
+                return View("ForgotPasswordConfirmation");
+            }
+            return View(model);
+        }
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string code = null)
+        {
+            return code == null ? View("Error") : View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid) 
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if (user == null) 
+                {
+                    return View("ResetPasswordConfirmation");
+                }
+                var result = await userManager.ResetPasswordAsync(user, model.Code, model.Password);
+                if (result.Succeeded) 
+                {
+                    return View("ResetPasswordConfirmation");
+                }
+            }
+            return View(model);
         }
     }
 }
