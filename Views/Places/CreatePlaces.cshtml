@@ -1,0 +1,26 @@
+﻿@model BookingPlaceInRestaurant.Models.PlacesModel.Place
+
+<form asp-action="CreatePlace" asp-controller="Places" method="post">
+    <div class="col">
+        <div class="form-group">
+            <label asp-for="TableNumber"></label>
+            <input asp-for="TableNumber" class="form-control"/>
+            <span asp-validation-for="TableNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NumberOfSeats"></label>
+            <input asp-for="NumberOfSeats" class="form-control"/>
+            <span asp-validation-for="NumberOfSeats" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-outline-success" type="submit">Create</button>
+        <a asp-action="Index" asp-controller="Places" asp-route-isEdit="" class="btn btn-outline-warning">Cancel</a>
+    </div>
+</form>
+
+@section scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

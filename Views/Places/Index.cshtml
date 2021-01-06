@@ -1,1 +1,41 @@
-﻿
+﻿@using BookingPlaceInRestaurant.Models.PlacesModel
+@{
+    IQueryable<Place> GetAllPlaces = ViewBag.GetAllPlaces;
+}
+<div class="text-center">
+    <a asp-action="Index" asp-controller="Places" class="btn btn-outline-primary"
+       asp-route-isEdit="false">Create Place</a>
+</div>
+<div class="row">
+    <div class="col">
+        @foreach (var item in GetAllPlaces)
+        {
+            <div>
+                <div>
+                    <a asp-action="Index" asp-controller="Places" class="btn btn-outline-dark"
+                       asp-route-placeId="@item.Id"
+                       asp-route-tableNumber="@item.TableNumber"
+                       asp-route-isEdit="true"
+                       asp-route-numberOfSeats="@item.NumberOfSeats">
+                        @item.TableNumber ) @item.NumberOfSeats
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+    @if (ViewBag.IsEdit == true && ViewBag.TableNumber != 0)
+    {
+        <div class="col">
+            @await Html.PartialAsync("EditPlaces")
+        </div>
+    }
+    else
+    {
+        @if (ViewBag.isEdit == false)
+        {
+            <div class="col">
+                @await Html.PartialAsync("CreatePlaces")
+            </div>
+        }
+    }
+</div>

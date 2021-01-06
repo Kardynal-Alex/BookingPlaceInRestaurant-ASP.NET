@@ -1,0 +1,32 @@
+﻿@model BookingPlaceInRestaurant.Models.PlacesModel.Place
+
+<form asp-action="EditPlace" asp-controller="Places" method="post">
+    <div class="col">
+        <input type="hidden" asp-for="Id" value="@ViewBag.PlaceId" />
+        <div class="form-group">
+            <label asp-for="TableNumber"></label>
+            <input asp-for="TableNumber" class="form-control" value="@ViewBag.TableNumber" />
+            <span asp-validation-for="TableNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NumberOfSeats"></label>
+            <input asp-for="NumberOfSeats" class="form-control" value="@ViewBag.NumberOfSeats" />
+            <span asp-validation-for="NumberOfSeats" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-outline-success" type="submit">Save</button>
+        <a asp-action="Index" asp-controller="Places" asp-route-isEdit="" class="btn btn-outline-warning">Cancel</a>
+    </div>
+</form>
+<div class="text-center">
+    <form asp-action="DeletePlace" asp-controller="Places" method="post">
+        <input type="hidden" name="placeId" value="@ViewBag.PlaceId" />
+        <button type="submit" class="btn btn-outline-danger">Delete</button>
+    </form>
+</div>
+@section scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

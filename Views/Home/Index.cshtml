@@ -1,4 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using BookingPlaceInRestaurant.Models.PlacesModel
+@{
+    Layout = "_Layout";
+    IQueryable<Place> GetAllPlaces = ViewBag.GetAllPlaces;
 }
-
+<form method="get" asp-controller="Home" asp-action="Index" class="form-inline">
+    <label class="m-1">Date:</label>
+    <input type="date" class="form-control" name="dateVisit" />
+    <input type="submit" value="Find" class="btn btn-danger" />
+</form>
+<div class="col">
+    @foreach (var item in GetAllPlaces)
+    {
+        <div>
+            <div class="btn btn-outline-dark">
+                @item.TableNumber ) @item.NumberOfSeats
+            </div>
+        </div>
+    }
+</div>

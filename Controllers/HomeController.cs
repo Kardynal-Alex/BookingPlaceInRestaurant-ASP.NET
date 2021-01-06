@@ -19,8 +19,10 @@ namespace BookingPlaceInRestaurant.Controllers
             guestRepository = guestRepo;
             placeRepository = placeRepo;
         }
-        public IActionResult Index()
+        public IActionResult Index(DateTime? dateVisit = null)
         {
+            ViewBag.DateVisit = dateVisit ?? DateTime.Now;
+            ViewBag.GetAllPlaces = placeRepository.GetAllPlaces();
             return View();
         }
 
