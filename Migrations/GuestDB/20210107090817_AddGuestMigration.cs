@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookingPlaceInRestaurant.Migrations.GuestDB
 {
-    public partial class GuestDbMigration : Migration
+    public partial class AddGuestMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,7 @@ namespace BookingPlaceInRestaurant.Migrations.GuestDB
                     NumberOfGuests = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SelectedTable = table.Column<int>(type: "int", nullable: false),
                     PlaceId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

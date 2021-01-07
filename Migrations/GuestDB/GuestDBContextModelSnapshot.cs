@@ -41,6 +41,9 @@ namespace BookingPlaceInRestaurant.Migrations.GuestDB
                     b.Property<int>("PlaceId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SelectedTable")
+                        .HasColumnType("int");
+
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 

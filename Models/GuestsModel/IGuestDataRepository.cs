@@ -7,5 +7,6 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
 {
     public interface IGuestDataRepository
     {
+        public Task AddGuest(Guest addGuest);
     }
 }

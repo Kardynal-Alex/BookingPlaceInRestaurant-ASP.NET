@@ -15,7 +15,7 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
         public int NumberOfGuests { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-
+        public int SelectedTable { get; set; }
         public int PlaceId { get; set; }
     }
 }

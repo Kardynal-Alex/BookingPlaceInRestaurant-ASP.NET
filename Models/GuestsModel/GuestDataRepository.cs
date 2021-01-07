@@ -12,5 +12,10 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
         {
             context = ctx;
         }
+        public async Task AddGuest(Guest addGuest)
+        {
+            context.Guests.Add(addGuest);
+            await context.SaveChangesAsync();
+        }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingPlaceInRestaurant.Migrations.GuestDB
 {
     [DbContext(typeof(GuestDBContext))]
-    [Migration("20210105121348_GuestDbMigration")]
-    partial class GuestDbMigration
+    [Migration("20210107090817_AddGuestMigration")]
+    partial class AddGuestMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,6 +41,9 @@ namespace BookingPlaceInRestaurant.Migrations.GuestDB
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PlaceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SelectedTable")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")

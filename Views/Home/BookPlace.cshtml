@@ -1,0 +1,65 @@
+﻿@model BookingPlaceInRestaurant.Models.GuestsModel.Guest
+@{ 
+    List<int> NumberOfGuests = new List<int>();
+
+    for (int i = 1; i <= ViewBag.NumberOfSeats+1; i++)
+    {
+        NumberOfGuests.Add(i);
+    }
+}
+<form asp-action="BookPlace" asp-controller="Home" method="post" 
+      asp-route-dateVisit="@ViewBag.DateVisit.ToShortDateString()">
+    <div class="text-center">
+        Date : @ViewBag.DateVisit.ToShortDateString()
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label asp-for="Time1"></label>
+                <input type="time" asp-for="Time1" class="form-control" />
+                <span asp-validation-for="Time1"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Time2"></label>
+                <input type="time" asp-for="Time2" class="form-control" />
+                <span asp-validation-for="Time2"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfGuests"></label>
+                <select class="form-control" asp-for="NumberOfGuests"
+                        asp-items="@new SelectList(NumberOfGuests)">
+                </select>
+                <span asp-validation-for="NumberOfGuests"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedTable"></label>
+                <input asp-for="SelectedTable" class="form-control" value="@ViewBag.TableNumber" readonly="readonly" />
+                <span asp-validation-for="SelectedTable"></span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label asp-for="Surname"></label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email"></span>
+            </div>
+        </div>
+        <input type="hidden" asp-for="PlaceId" value="@ViewBag.PlaceId" />
+        <input type="hidden" asp-for="DateVisit" value="@ViewBag.DateVisit" />
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Book Place</button>
+    </div>
+</form>
+
+<a asp-action="Index" asp-controller="Home" asp-route-isToBook="" class="btn btn-outline-warning">Cancel</a>
