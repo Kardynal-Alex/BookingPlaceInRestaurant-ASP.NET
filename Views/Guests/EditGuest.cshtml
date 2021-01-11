@@ -1,22 +1,13 @@
 ﻿@model BookingPlaceInRestaurant.Models.GuestsModel.Guest
-@using BookingPlaceInRestaurant.Models.PlacesModel
 @{
     List<int> NumberOfGuests = new List<int>();
-    Place place = ViewBag.Place;
-    for (int i = 1; i <= place.NumberOfSeats + 1; i++)
+
+    for (int i = 1; i <= ViewBag.NumberOfSeats + 1; i++)
     {
         NumberOfGuests.Add(i);
     }
-
 }
-<form asp-action="BookPlace" asp-controller="Home" method="post"
-      asp-route-dateVisit="@ViewBag.DateVisit.ToShortDateString()"
-      asp-route-placeId="@place.Id"
-      asp-route-tableNumber="@place.TableNumber"
-      asp-route-numberOfSeats="@place.NumberOfSeats">
-    <div class="text-center">
-        Date : @ViewBag.DateVisit.ToShortDateString()
-    </div>
+<form asp-action="EditGuest" asp-controller="Guests" method="post">
     <div class="row">
         <div class="col">
             <div class="form-group">
@@ -38,7 +29,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="SelectedTable"></label>
-                <input asp-for="SelectedTable" class="form-control" value="@place.TableNumber" readonly="readonly" />
+                <input asp-for="SelectedTable" class="form-control" readonly="readonly" />
                 <span asp-validation-for="SelectedTable" class="text-danger"></span>
             </div>
         </div>
@@ -59,21 +50,16 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
-        <input type="hidden" asp-for="PlaceId" value="@place.Id" />
-        <input type="hidden" asp-for="DateVisit" value="@ViewBag.DateVisit" />
+        <input type="hidden" asp-for="PlaceId" />
+        <input type="hidden" asp-for="DateVisit" />
     </div>
     <div class="text-center">
-        <button class="btn btn-primary" type="submit">Book Place</button>
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a asp-action="Index" asp-controller="Guests" class="btn btn-outline-danger">
+            Cancel
+        </a>
     </div>
 </form>
-
-<a asp-action="Index"
-   asp-controller="Home"
-   asp-route-isToBook=""
-   asp-route-dateVisit="@ViewBag.DateVisit.ToShortDateString()"
-   class="btn btn-outline-warning">
-    Cancel
-</a>
 
 @section scripts
 {

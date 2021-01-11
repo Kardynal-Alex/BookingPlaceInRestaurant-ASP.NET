@@ -19,21 +19,51 @@ namespace BookingPlaceInRestaurant.Controllers
             guestRepository = guestRepo;
             placeRepository = placeRepo;
         }
-        public IActionResult Index(int tableNumber,int numberOfSeats, string dateVisit, bool? isToBook = null, int? placeId = 0)
+        public IActionResult Index(Place place, string dateVisit, bool? isToBook = null)
         {
             ViewBag.DateVisit = dateVisit != null ? Convert.ToDateTime(dateVisit) : DateTime.Now.Date; 
             ViewBag.GetAllPlaces = placeRepository.GetAllPlaces();
             ViewBag.IsToBook = isToBook;
-            ViewBag.TableNumber = tableNumber;
-            ViewBag.NumberOfSeats = numberOfSeats;
-            ViewBag.PlaceId = placeId;
+            ViewBag.Place = new Place
+            {
+                Id = place.Id,
+                TableNumber = place.TableNumber,
+                NumberOfSeats = place.NumberOfSeats
+            };
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> BookPlace(Guest guest, string dateVisit)
+        public async Task<IActionResult> BookPlace(Guest guest, string dateVisit, Place place, int placeId)
         {
-            await guestRepository.AddGuest(guest);
-            return RedirectToRoute(new { Controller = "Home", Action = "Index", dateVisit = dateVisit });
+            long num = 0;
+            ViewBag.DateVisit = Convert.ToDateTime(dateVisit);
+            ViewBag.Place = new Place
+            {
+                Id = placeId,
+                NumberOfSeats = place.NumberOfSeats,
+                TableNumber = place.TableNumber
+            };
+            if (guest.DateVisit < DateTime.Now.Date)
+            {
+                ModelState.AddModelError("DateVisit", "Enter correct Date");
+            }
+            else
+            if (guest.Time1 > guest.Time2)
+            {
+                ModelState.AddModelError("Time1", "Time1 must be less than Time2");
+            }
+            else
+            if (long.TryParse(guest.Phone, out num) == false)
+            {
+                ModelState.AddModelError("Phone", "Phone must contains only digits");
+            }
+            else
+            if (ModelState.IsValid)
+            {
+                await guestRepository.AddGuest(guest);
+                return RedirectToRoute(new { Controller = "Home", Action = "Index", dateVisit = dateVisit });
+            }
+            return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

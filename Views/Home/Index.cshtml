@@ -6,10 +6,10 @@
 
 <form method="get" asp-controller="Home" asp-action="Index" class="form-inline">
     <label class="m-1">Date:</label>
-    <input type="date" class="form-control" name="dateVisit" />
+    <input type="date" class="form-control" name="dateVisit" value="@ViewBag.DateVisit"/>
     <input type="submit" value="Find" class="btn btn-danger" />
 </form>
-<h1>@ViewBag.DateVisit</h1>
+<h1>@ViewBag.DateVisit.ToShortDateString()</h1>
 <div class="row">
     <div class="col">
         @foreach (var item in GetAllPlaces)
@@ -19,7 +19,7 @@
                     <a asp-action="Index" 
                        asp-controller="Home"
                        asp-route-isToBook="true"
-                       asp-route-placeId="@item.Id"
+                       asp-route-id="@item.Id"
                        asp-route-dateVisit="@ViewBag.DateVisit.ToShortDateString()"
                        asp-route-tableNumber="@item.TableNumber"
                        asp-route-numberOfSeats="@item.NumberOfSeats"
