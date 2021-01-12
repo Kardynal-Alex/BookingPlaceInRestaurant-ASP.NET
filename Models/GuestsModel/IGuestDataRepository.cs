@@ -15,5 +15,6 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
         public Task DeleteGuest(int id);
         public IQueryable<Guest> GetFiltredGuests(DateTime? dateVisit, string surname = null, string phone = null);
         public int GetNumberOfSeatsByPlaceId(int placeId);
+        public List<Guest> GetGuestsByDate(DateTime date);
     }
 }

@@ -21,7 +21,8 @@ namespace BookingPlaceInRestaurant.Controllers
         }
         public IActionResult Index(Place place, string dateVisit, bool? isToBook = null)
         {
-            ViewBag.DateVisit = dateVisit != null ? Convert.ToDateTime(dateVisit) : DateTime.Now.Date; 
+            var DateVisit = dateVisit != null ? Convert.ToDateTime(dateVisit) : DateTime.Now.Date;
+            ViewBag.DateVisit = DateVisit; 
             ViewBag.GetAllPlaces = placeRepository.GetAllPlaces();
             ViewBag.IsToBook = isToBook;
             ViewBag.Place = new Place
@@ -30,6 +31,7 @@ namespace BookingPlaceInRestaurant.Controllers
                 TableNumber = place.TableNumber,
                 NumberOfSeats = place.NumberOfSeats
             };
+            ViewBag.GuestsList = guestRepository.GetGuestsByDate(DateVisit);
             return View();
         }
         [HttpPost]

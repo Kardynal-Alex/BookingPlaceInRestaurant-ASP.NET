@@ -1,7 +1,11 @@
 ﻿@using BookingPlaceInRestaurant.Models.PlacesModel
+@using BookingPlaceInRestaurant.Models.GuestsModel
 @{
     Layout = "_Layout";
     IQueryable<Place> GetAllPlaces = ViewBag.GetAllPlaces;
+    List<Guest> GuestsList = ViewBag.GuestsList;
+    Place place = ViewBag.Place;
+    int i = 1;
 }
 
 <form method="get" asp-controller="Home" asp-action="Index" class="form-inline">
@@ -23,13 +27,40 @@
                        asp-route-dateVisit="@ViewBag.DateVisit.ToShortDateString()"
                        asp-route-tableNumber="@item.TableNumber"
                        asp-route-numberOfSeats="@item.NumberOfSeats"
-                       class="btn btn-outline-dark">
+                       class="@((GuestsList.Find(x => x.PlaceId == item.Id && x.Time1 <= DateTime.Now.TimeOfDay && DateTime.Now.TimeOfDay <= x.Time2))!=null
+                        ?"btn btn-danger":"btn btn-success")"
+                       >
                         @item.TableNumber ) @item.NumberOfSeats
                     </a>
                 </div>
             </div>
         }
+        <div class="col">
+            @if (place.TableNumber > 0)
+            {
+                <h4>List of Guests table  @place.TableNumber</h4>
+                @foreach (var item in GuestsList)
+                {
+                    <div class="row">
+                        @if (item.PlaceId == place.Id)
+                        {
+                            @if (User.IsInRole("admin"))
+                            {
+                                <div><h5>@item.Surname</h5></div><pre> </pre>
+                            }
+                            else
+                            {
+                                <div><h5>Guest @(i++)</h5></div><pre> </pre>
+                            }
+                            <div><h5>@item.Time2</h5></div><pre> </pre>
+                            <div><h5>@item.Time2</h5></div>
+                        }
+                    </div>
+                }
+            }
+        </div>
     </div>
+   
     @if (ViewBag.IsToBook == true)
     {
         <div class="col">

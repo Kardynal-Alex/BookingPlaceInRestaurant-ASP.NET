@@ -66,5 +66,6 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
             return FiltredGuests;
         }
         public int GetNumberOfSeatsByPlaceId(int placeId) => placeContext.Places.Find(placeId).NumberOfSeats;
+        public List<Guest> GetGuestsByDate(DateTime date) => context.Guests.Where(x => x.DateVisit == date.Date).OrderBy(x => x.Time1).ToList();
     }
 }
