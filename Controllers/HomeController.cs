@@ -1,13 +1,11 @@
 ﻿using BookingPlaceInRestaurant.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using BookingPlaceInRestaurant.Models.GuestsModel;
 using BookingPlaceInRestaurant.Models.PlacesModel;
+using BookingPlaceInRestaurant.Models.EmailServices;
 namespace BookingPlaceInRestaurant.Controllers
 {
     public class HomeController : Controller
@@ -31,6 +29,10 @@ namespace BookingPlaceInRestaurant.Controllers
                 TableNumber = place.TableNumber,
                 NumberOfSeats = place.NumberOfSeats
             };
+            if (User.IsInRole("user")) 
+            {
+                ViewBag.GuestEmail = User.Identity.Name;
+            }
             ViewBag.GuestsList = guestRepository.GetGuestsByDate(DateVisit);
             return View();
         }
@@ -45,6 +47,10 @@ namespace BookingPlaceInRestaurant.Controllers
                 NumberOfSeats = place.NumberOfSeats,
                 TableNumber = place.TableNumber
             };
+            if (User.IsInRole("user")) 
+            {
+                ViewBag.GuestEmail = User.Identity.Name;
+            }
             if (guest.DateVisit < DateTime.Now.Date)
             {
                 ModelState.AddModelError("DateVisit", "Enter correct Date");
@@ -63,6 +69,8 @@ namespace BookingPlaceInRestaurant.Controllers
             if (ModelState.IsValid)
             {
                 await guestRepository.AddGuest(guest);
+                SendingEmailAfterBooking Email = new SendingEmailAfterBooking();
+                await Email.SendEmailAsync(guest);
                 return RedirectToRoute(new { Controller = "Home", Action = "Index", dateVisit = dateVisit });
             }
             return View();

@@ -1,0 +1,38 @@
+﻿@model IQueryable<BookingPlaceInRestaurant.Models.GuestsModel.Guest>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-center">DateVisit</th>
+            <th>Time1</th>
+            <th>Time2</th>
+            <th class="text-right">Surname</th>
+            <th class="text-center">Email</th>
+            <th class="text-right">Phone</th>
+            <th class="text-right">Table</th>
+            <th class="text-right">Number of Guests</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model)
+        {
+            <tr>
+                <td class="text-center">@line.DateVisit.ToShortDateString()</td>
+                <td class="text-left">@line.Time1</td>
+                <td class="text-left">@line.Time2</td>
+                <td class="text-right">@line.Surname</td>
+                <td class="text-right">@line.Email</td>
+                <td class="text-right">@line.Phone</td>
+                <td class="text-right">@line.SelectedTable</td>
+                <td class="text-center">@line.NumberOfGuests</td>
+                <td>
+                    <form asp-controller="Guests" asp-action="DeleteGuestInCabinet" method="post">
+                        <input type="hidden" name="id" value="@line.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

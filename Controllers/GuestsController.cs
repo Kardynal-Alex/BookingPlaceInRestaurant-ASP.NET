@@ -21,8 +21,17 @@ namespace BookingPlaceInRestaurant.Controllers
                 Surname = surname,
                 Phone = phone
             };
-
             return View(repository.GetFiltredGuests(dateVisit, surname, phone));
+        }
+        public IActionResult GuestCabinet()
+        {
+            return View(repository.GuestBookingInfo(User.Identity.Name));
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteGuestInCabinet(int id)
+        {
+            await repository.DeleteGuest(id);
+            return RedirectToAction("GuestCabinet", "Guests");
         }
         public async Task<IActionResult> DeleteGuestsOutOfDate()
         {

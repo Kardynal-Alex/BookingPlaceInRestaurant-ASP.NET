@@ -7,7 +7,6 @@
     {
         NumberOfGuests.Add(i);
     }
-
 }
 <form asp-action="BookPlace" asp-controller="Home" method="post"
       asp-route-dateVisit="@ViewBag.DateVisit.ToShortDateString()"
@@ -55,25 +54,36 @@
             </div>
             <div class="form-group">
                 <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" value="@ViewBag.GuestEmail" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
         <input type="hidden" asp-for="PlaceId" value="@place.Id" />
         <input type="hidden" asp-for="DateVisit" value="@ViewBag.DateVisit" />
     </div>
-    <div class="text-center">
-        <button class="btn btn-primary" type="submit">Book Place</button>
-    </div>
-</form>
+    @if (User.Identity.IsAuthenticated == true)
+    {
+        <div class="text-center">
+            <button class="btn btn-primary" type="submit">Book Place</button>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <div class="btn btn-outline-dark">In order to Book Place, Please register or login your account </div>
+        </div>
+    }
 
-<a asp-action="Index"
-   asp-controller="Home"
-   asp-route-isToBook=""
-   asp-route-dateVisit="@ViewBag.DateVisit.ToShortDateString()"
-   class="btn btn-outline-warning">
-    Cancel
-</a>
+</form>
+<div class="text-center">
+    <a asp-action="Index"
+       asp-controller="Home"
+       asp-route-isToBook=""
+       asp-route-dateVisit="@ViewBag.DateVisit.ToShortDateString()"
+       class="btn btn-outline-warning">
+        Cancel
+    </a>
+</div>
 
 @section scripts
 {

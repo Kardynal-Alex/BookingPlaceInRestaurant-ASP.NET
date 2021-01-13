@@ -27,7 +27,9 @@
                        asp-route-dateVisit="@ViewBag.DateVisit.ToShortDateString()"
                        asp-route-tableNumber="@item.TableNumber"
                        asp-route-numberOfSeats="@item.NumberOfSeats"
-                       class="@((GuestsList.Find(x => x.PlaceId == item.Id && x.Time1 <= DateTime.Now.TimeOfDay && DateTime.Now.TimeOfDay <= x.Time2))!=null
+                       class="@((GuestsList.Find(x => x.PlaceId == item.Id &&
+                                                    x.Time1 <= DateTime.Now.TimeOfDay && 
+                                                    DateTime.Now.TimeOfDay <= x.Time2))!=null
                         ?"btn btn-danger":"btn btn-success")"
                        >
                         @item.TableNumber ) @item.NumberOfSeats

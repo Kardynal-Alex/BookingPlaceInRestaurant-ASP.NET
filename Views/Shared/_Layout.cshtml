@@ -44,7 +44,16 @@
                                 </form>
                             </li>
                         }
-
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User.IsInRole("user"))
+                        {
+                            <li class="nav-item">
+                                <a asp-action="GuestCabinet" asp-controller="Guests" >@User.Identity.Name</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

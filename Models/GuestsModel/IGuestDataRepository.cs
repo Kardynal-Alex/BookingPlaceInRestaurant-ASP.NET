@@ -16,5 +16,6 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
         public IQueryable<Guest> GetFiltredGuests(DateTime? dateVisit, string surname = null, string phone = null);
         public int GetNumberOfSeatsByPlaceId(int placeId);
         public List<Guest> GetGuestsByDate(DateTime date);
+        public IQueryable<Guest> GuestBookingInfo(string Email);
     }
 }

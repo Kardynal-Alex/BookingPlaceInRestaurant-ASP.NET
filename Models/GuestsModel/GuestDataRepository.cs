@@ -67,5 +67,9 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
         }
         public int GetNumberOfSeatsByPlaceId(int placeId) => placeContext.Places.Find(placeId).NumberOfSeats;
         public List<Guest> GetGuestsByDate(DateTime date) => context.Guests.Where(x => x.DateVisit == date.Date).OrderBy(x => x.Time1).ToList();
+        public IQueryable<Guest> GuestBookingInfo(string Email)
+        {
+            return context.Guests.Where(x => x.Email == Email);
+        }
     }
 }
