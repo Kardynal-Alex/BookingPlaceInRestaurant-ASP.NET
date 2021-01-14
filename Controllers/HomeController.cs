@@ -68,10 +68,26 @@ namespace BookingPlaceInRestaurant.Controllers
             else
             if (ModelState.IsValid)
             {
-                await guestRepository.AddGuest(guest);
-                SendingEmailAfterBooking Email = new SendingEmailAfterBooking();
-                await Email.SendEmailAsync(guest);
-                return RedirectToRoute(new { Controller = "Home", Action = "Index", dateVisit = dateVisit });
+                var list = guestRepository.GetGuestsByDateAndTable(guest.DateVisit, guest.SelectedTable);
+                bool f = false;
+                foreach (var item in list)
+                {
+                    if ((item.Time1 < guest.Time1 && guest.Time2 < item.Time2) ||
+                        (!(guest.Time1 <= item.Time1 && guest.Time2 <= item.Time1)) &&
+                        (!(item.Time2 <= guest.Time1 && item.Time2 <= guest.Time2)))
+                    {
+                        f = true;
+                    }
+                    if (f) break;
+                }
+                if (f) ModelState.AddModelError("Time1", "Current Time is booked");
+                if (ModelState.IsValid)
+                {
+                    await guestRepository.AddGuest(guest);
+                    SendingEmailAfterBooking Email = new SendingEmailAfterBooking();
+                    await Email.SendEmailAsync(guest);
+                    return RedirectToRoute(new { Controller = "Home", Action = "Index", dateVisit = dateVisit });
+                }
             }
             return View();
         }

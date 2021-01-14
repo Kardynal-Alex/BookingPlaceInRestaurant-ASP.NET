@@ -51,7 +51,6 @@ namespace BookingPlaceInRestaurant.Controllers
                 }
             }
         }
-        
         public IActionResult Register()
         {
             return View();
@@ -103,12 +102,12 @@ namespace BookingPlaceInRestaurant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid) 
             {
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-                if(result.Succeeded)
+                if (result.Succeeded) 
                 {
-                    if(!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl)) 
                     {
                         return Redirect(model.ReturnUrl);
                     }

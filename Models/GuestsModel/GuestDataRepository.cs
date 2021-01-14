@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BookingPlaceInRestaurant.Models.GuestsModel;
 using BookingPlaceInRestaurant.Models.PlacesModel;
 namespace BookingPlaceInRestaurant.Models.GuestsModel
 {
@@ -48,7 +47,7 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
             context.Guests.Remove(new Guest { Id = id });
             await context.SaveChangesAsync();
         }
-        public IQueryable<Guest> GetFiltredGuests(DateTime? dateVisit = null, string surname = null, string phone = null)
+        public IQueryable<Guest> GetFiltredGuests(DateTime? dateVisit = null, string surname = null, int table = 0)
         {
             IQueryable<Guest> FiltredGuests = context.Guests; ;
             if (dateVisit.HasValue)
@@ -59,14 +58,23 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
             {
                 FiltredGuests = FiltredGuests.Where(x => x.Surname == surname);
             }
-            if (phone != null)
+            if (table > 0) 
             {
-                FiltredGuests = FiltredGuests.Where(x => x.Phone == phone);
+                FiltredGuests = FiltredGuests.Where(x => x.SelectedTable == table);
             }
             return FiltredGuests;
         }
         public int GetNumberOfSeatsByPlaceId(int placeId) => placeContext.Places.Find(placeId).NumberOfSeats;
-        public List<Guest> GetGuestsByDate(DateTime date) => context.Guests.Where(x => x.DateVisit == date.Date).OrderBy(x => x.Time1).ToList();
+        public List<Guest> GetGuestsByDate(DateTime date) =>
+            context.Guests.Where(x => x.DateVisit == date.Date &&
+            (x.Time1 >= DateTime.Now.TimeOfDay ||
+            (x.Time1 <= DateTime.Now.TimeOfDay && DateTime.Now.TimeOfDay <= x.Time2)))
+            .OrderBy(x => x.Time1).ToList();
+        public List<Guest> GetGuestsByDateAndTable(DateTime date, int tableNumber) =>
+            context.Guests.Where(x => x.DateVisit == date.Date && x.PlaceId == tableNumber &&
+            (x.Time1 >= DateTime.Now.TimeOfDay ||
+            (x.Time1 <= DateTime.Now.TimeOfDay && DateTime.Now.TimeOfDay <= x.Time2)))
+            .OrderBy(x => x.Time1).ToList();
         public IQueryable<Guest> GuestBookingInfo(string Email)
         {
             return context.Guests.Where(x => x.Email == Email);

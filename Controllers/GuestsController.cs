@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BookingPlaceInRestaurant.Models.GuestsModel;
 namespace BookingPlaceInRestaurant.Controllers
@@ -13,15 +11,15 @@ namespace BookingPlaceInRestaurant.Controllers
         {
             repository = repo;
         }
-        public IActionResult Index(DateTime? dateVisit = null, string surname = null, string phone = null)
+        public IActionResult Index(DateTime? dateVisit = null, string surname = null, int table = 0)
         {
             ViewBag.SearchGuests = new Guest
             {
                 DateVisit = dateVisit.GetValueOrDefault(),
                 Surname = surname,
-                Phone = phone
+                SelectedTable = table
             };
-            return View(repository.GetFiltredGuests(dateVisit, surname, phone));
+            return View(repository.GetFiltredGuests(dateVisit, surname, table));
         }
         public IActionResult GuestCabinet()
         {
