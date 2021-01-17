@@ -18,5 +18,6 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
         public List<Guest> GetGuestsByDate(DateTime date);
         public List<Guest> GetGuestsByDateAndTable(DateTime date, int tableNumber);
         public IQueryable<Guest> GuestBookingInfo(string Email);
+        public IQueryable<PromoCode> GetAllPromoCodes();
     }
 }

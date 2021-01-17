@@ -4,14 +4,16 @@ using BookingPlaceInRestaurant.Models.GuestsModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookingPlaceInRestaurant.Migrations.GuestDB
 {
     [DbContext(typeof(GuestDBContext))]
-    partial class GuestDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210117075604_PromoCode")]
+    partial class PromoCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

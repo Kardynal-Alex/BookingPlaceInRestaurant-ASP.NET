@@ -2,14 +2,20 @@
 using System;
 using System.Threading.Tasks;
 using BookingPlaceInRestaurant.Models.GuestsModel;
+using Microsoft.AspNetCore.Identity;
+using BookingPlaceInRestaurant.Models.IdentityModel;
 namespace BookingPlaceInRestaurant.Controllers
 {
     public class GuestsController : Controller
     {
         private IGuestDataRepository repository;
-        public GuestsController(IGuestDataRepository repo)
+        private UserManager<User> userManager;
+        private RoleManager<IdentityRole> roleManager;
+        public GuestsController(IGuestDataRepository repo, UserManager<User> _userManager, RoleManager<IdentityRole> _roleManager)
         {
             repository = repo;
+            userManager = _userManager;
+            roleManager = _roleManager;
         }
         public IActionResult Index(DateTime? dateVisit = null, string surname = null, int table = 0)
         {
@@ -20,6 +26,25 @@ namespace BookingPlaceInRestaurant.Controllers
                 SelectedTable = table
             };
             return View(repository.GetFiltredGuests(dateVisit, surname, table));
+        }
+        public async Task<IActionResult> ShowAllRegisteredUsers()
+        {
+            return View(userManager.Users);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            User user = await userManager.FindByIdAsync(id);
+            if(user!=null)
+            {
+                var result = await userManager.DeleteAsync(user);
+                return RedirectToAction("ShowAllRegisteredUsers", "Guests");
+            }
+            return View();
+        }
+        public IActionResult ShowAllPromoCode()
+        {
+            return View(repository.GetAllPromoCodes());
         }
         public IActionResult GuestCabinet()
         {

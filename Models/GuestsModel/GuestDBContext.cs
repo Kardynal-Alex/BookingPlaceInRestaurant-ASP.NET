@@ -7,5 +7,6 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
         public GuestDBContext(DbContextOptions<GuestDBContext> opt) : base(opt) { }
 
         public DbSet<Guest> Guests { get; set; }
+        public DbSet<PromoCode> PromoCodes { get; set; }
     }
 }

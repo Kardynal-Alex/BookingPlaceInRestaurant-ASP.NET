@@ -1,8 +1,10 @@
 ﻿@model IQueryable<BookingPlaceInRestaurant.Models.GuestsModel.Guest>
 @using BookingPlaceInRestaurant.Models.GuestsModel
-
-<a asp-action="DeleteGuestsOutOfDate" asp-controller="Guests" class="btn btn-outline-dark">Delete Out-Of-Date Guests</a>
-
+<div class="text-center">
+    <a asp-action="DeleteGuestsOutOfDate" asp-controller="Guests" class="btn btn-outline-dark">Delete Out-Of-Date Guests</a>
+    <a asp-action="ShowAllPromoCode" asp-controller="Guests" class="btn btn-outline-dark">Show PromoCode</a>
+    <a asp-action="ShowAllRegisteredUsers" asp-controller="Guests" class="btn btn-outline-dark">Show All Registered Users</a>
+</div>
 @await Html.PartialAsync("SearchWindow")
 
 <table class="table">

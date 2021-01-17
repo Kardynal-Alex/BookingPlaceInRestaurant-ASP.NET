@@ -4,6 +4,8 @@ using BookingPlaceInRestaurant.Models.IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using BookingPlaceInRestaurant.Models.EmailServices;
 using Microsoft.AspNetCore.Authorization;
+using BookingPlaceInRestaurant.Models.GuestsModel;
+using System;
 
 namespace BookingPlaceInRestaurant.Controllers
 {
@@ -12,11 +14,13 @@ namespace BookingPlaceInRestaurant.Controllers
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
-        public AccountController(RoleManager<IdentityRole> _roleManager, UserManager<User> _userManager, SignInManager<User> _signInManager)
+        private GuestDBContext context;
+        public AccountController(RoleManager<IdentityRole> _roleManager, UserManager<User> _userManager, SignInManager<User> _signInManager, GuestDBContext ctx)
         {
             roleManager = _roleManager;
             userManager = _userManager;
             signInManager = _signInManager;
+            context = ctx;
         }
         public async Task Initialize()
         {
@@ -88,6 +92,10 @@ namespace BookingPlaceInRestaurant.Controllers
                 return View("Error");
             }
             var result = await userManager.ConfirmEmailAsync(user, code);
+
+            RegisterPromoCode Email = new RegisterPromoCode(context);
+            await Email.SendEmailAsync(new Models.PromoCode { Email = user.Email, Discount = 10, EndDate = DateTime.Now.Date.AddDays(30) });
+
             await userManager.AddToRoleAsync(user, "user");
             if (result.Succeeded)
                 return RedirectToAction("Index", "Home");
