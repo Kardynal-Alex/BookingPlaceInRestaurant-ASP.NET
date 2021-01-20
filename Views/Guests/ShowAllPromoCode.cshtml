@@ -1,1 +1,16 @@
-﻿
+﻿@model IQueryable<BookingPlaceInRestaurant.Models.PromoCode>
+
+<div class="text-center">
+    <a asp-action="DeleteOldPromoCodes" asp-controller="Guests" class="btn btn-outline-dark">Delete Old PromoCode</a>
+</div>
+<table class="table">
+    <tr><th>Email</th><th>Discount %</th><th>EndDate</th></tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>@user.Discount %</td>
+            <td>@user.EndDate.ToShortDateString()</td>
+        </tr>
+    }
+</table>

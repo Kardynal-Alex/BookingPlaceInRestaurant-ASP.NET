@@ -27,7 +27,7 @@ namespace BookingPlaceInRestaurant.Controllers
             };
             return View(repository.GetFiltredGuests(dateVisit, surname, table));
         }
-        public async Task<IActionResult> ShowAllRegisteredUsers()
+        public IActionResult ShowAllRegisteredUsers()
         {
             return View(userManager.Users);
         }
@@ -35,7 +35,7 @@ namespace BookingPlaceInRestaurant.Controllers
         public async Task<IActionResult> DeleteUser(string id)
         {
             User user = await userManager.FindByIdAsync(id);
-            if(user!=null)
+            if (user != null) 
             {
                 var result = await userManager.DeleteAsync(user);
                 return RedirectToAction("ShowAllRegisteredUsers", "Guests");
@@ -45,6 +45,11 @@ namespace BookingPlaceInRestaurant.Controllers
         public IActionResult ShowAllPromoCode()
         {
             return View(repository.GetAllPromoCodes());
+        }
+        public async Task<IActionResult> DeleteOldPromoCodes()
+        {
+            await repository.DeleteOldPromoCodes();
+            return RedirectToAction("ShowAllPromoCode", "Guests");
         }
         public IActionResult GuestCabinet()
         {

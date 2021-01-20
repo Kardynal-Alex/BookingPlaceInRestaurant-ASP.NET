@@ -80,5 +80,11 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
             return context.Guests.Where(x => x.Email == Email);
         }
         public IQueryable<PromoCode> GetAllPromoCodes() => context.PromoCodes;
+        public async Task DeleteOldPromoCodes()
+        {
+            List<PromoCode> ListPromoCodes = context.PromoCodes.Where(x => x.EndDate < DateTime.Now.Date).ToList();
+            context.PromoCodes.RemoveRange(ListPromoCodes);
+            await context.SaveChangesAsync();
+        }
     }
 }
