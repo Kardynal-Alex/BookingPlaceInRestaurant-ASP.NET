@@ -22,7 +22,7 @@ namespace BookingPlaceInRestaurant.Models.GuestsModel
         public IQueryable<Guest> GetAllGuests() => context.Guests;
         public async Task DeleteGuestsOutOfDate()
         {
-            var selectedList = context.Guests.Where(x => x.DateVisit < DateTime.Now.Date).ToList();
+            var selectedList = context.Guests.Where(x => x.DateVisit.Date.Month < DateTime.Now.Date.Month).ToList();
             context.Guests.RemoveRange(selectedList);
             await context.SaveChangesAsync();
         }
