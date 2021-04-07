@@ -15,7 +15,7 @@ namespace BookingPlaceInRestaurant.Models.EmailServices
         }
         public async Task SendEmailAsync(PromoCode promoCode)
         {
-            var mm = new MailMessage("alexandrkardinal@gmail.com", promoCode.Email);
+            var mm = new MailMessage("irakardinal@gmail.com", promoCode.Email);
             mm.Subject = "System PromoCode";
             mm.Body = BodyText(promoCode);
             mm.IsBodyHtml = true;
@@ -28,7 +28,7 @@ namespace BookingPlaceInRestaurant.Models.EmailServices
             smtp.Port = 587;
             smtp.EnableSsl = true;
             
-            NetworkCredential nc = new NetworkCredential("alexandrkardinal@gmail.com", "alex60327");
+            NetworkCredential nc = new NetworkCredential("irakardinal@gmail.com", "sasha60327");
             smtp.Credentials = nc;
             await smtp.SendMailAsync(mm);
         }
