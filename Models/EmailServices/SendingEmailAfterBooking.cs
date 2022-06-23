@@ -12,7 +12,7 @@ namespace BookingPlaceInRestaurant.Models.EmailServices
     {
         public async Task SendEmailAsync(Guest guest)
         {
-            var mm = new MailMessage("irakardinal@gmail.com", guest.Email);
+            var mm = new MailMessage("email", guest.Email);
             mm.Subject = "Booking Place In Restaurant";
             mm.Body = BodyText(guest);
             mm.IsBodyHtml = true;
@@ -22,7 +22,7 @@ namespace BookingPlaceInRestaurant.Models.EmailServices
             smtp.Port = 587;
             smtp.EnableSsl = true;
 
-            NetworkCredential nc = new NetworkCredential("irakardinal@gmail.com", "sasha60327");
+            NetworkCredential nc = new NetworkCredential("email", "password");
             smtp.Credentials = nc;
             await smtp.SendMailAsync(mm);
         }

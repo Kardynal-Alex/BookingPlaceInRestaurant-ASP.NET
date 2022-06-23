@@ -8,7 +8,7 @@ namespace BookingPlaceInRestaurant.Models.EmailServices
     {
         public async Task SendEmailAsync(string email, string subject, string message)
         {
-            var mm = new MailMessage("irakardinal@gmail.com", email);
+            var mm = new MailMessage("email", email);
             mm.Subject = subject;
             mm.Body = message;
             mm.IsBodyHtml = true;
@@ -18,7 +18,7 @@ namespace BookingPlaceInRestaurant.Models.EmailServices
             smtp.Port = 587;
             smtp.EnableSsl = true;
 
-            NetworkCredential nc = new NetworkCredential("irakardinal@gmail.com", "sasha60327");
+            NetworkCredential nc = new NetworkCredential("email", "password");
             smtp.Credentials = nc;
             await smtp.SendMailAsync(mm);
         }
